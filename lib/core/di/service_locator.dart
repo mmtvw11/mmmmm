@@ -22,7 +22,6 @@ import '../../features/tasks/presentation/bloc/tasks_bloc.dart';
 final getIt = GetIt.instance;
 
 void setupServiceLocator() {
-  // External dependencies
   getIt.registerSingleton<FlutterSecureStorage>(
     const FlutterSecureStorage(),
   );
@@ -31,17 +30,14 @@ void setupServiceLocator() {
     http.Client(),
   );
 
-  // Auth Data Sources
   getIt.registerSingleton<AuthLocalDataSource>(
     AuthLocalDataSourceImpl(secureStorage: getIt<FlutterSecureStorage>()),
   );
 
-  // Auth Repositories
   getIt.registerSingleton<AuthRepository>(
     AuthRepositoryImpl(localDataSource: getIt<AuthLocalDataSource>()),
   );
 
-  // Auth UseCases
   getIt.registerSingleton<LoginUseCase>(
     LoginUseCase(repository: getIt<AuthRepository>()),
   );
@@ -58,7 +54,6 @@ void setupServiceLocator() {
     GetTokenUseCase(repository: getIt<AuthRepository>()),
   );
 
-  // Auth BLoC
   getIt.registerSingleton<AuthBloc>(
     AuthBloc(
       checkAuthUseCase: getIt<CheckAuthUseCase>(),
@@ -67,17 +62,14 @@ void setupServiceLocator() {
     ),
   );
 
-  // Tasks Data Sources
   getIt.registerSingleton<TasksRemoteDataSource>(
     TasksRemoteDataSourceImpl(client: getIt<http.Client>()),
   );
 
-  // Tasks Repositories
   getIt.registerSingleton<TasksRepository>(
     TasksRepositoryImpl(remoteDataSource: getIt<TasksRemoteDataSource>()),
   );
 
-  // Tasks UseCases
   getIt.registerSingleton<GetTasksUseCase>(
     GetTasksUseCase(repository: getIt<TasksRepository>()),
   );
@@ -90,7 +82,6 @@ void setupServiceLocator() {
     UpdateTaskStatusUseCase(repository: getIt<TasksRepository>()),
   );
 
-  // Tasks BLoC
   getIt.registerSingleton<TasksBloc>(
     TasksBloc(
       getTasksUseCase: getIt<GetTasksUseCase>(),
